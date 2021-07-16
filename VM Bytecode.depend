@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1626212375 source:c:\users\hammou\desktop\random project\vm bytecode\main.c
+	<stdio.h>
+	<stdlib.h>
+
