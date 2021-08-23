@@ -6,15 +6,15 @@
 
     Programmer: Aiman Hammou (aimenhammou@gmail.com)
 
-    Virtual machine base che puÚ runnare codice macchina
+    Virtual machine base che pu√≤ runnare codice macchina
 
-    Il motivo per il quale ho deciso di scrivere una VM, o per essere pi˘ corretti
-    una STACK-BASED VM, Ë per aver pi˘ familiarit‡ con esse e cosÏ da riuscere ad implementarne
-    una in modo pi˘ rapido per uno dei miei prossimi progetti: un linguaggio di programmazione che usa BYTECODE su VM
+    Il motivo per il quale ho deciso di scrivere una VM, o per essere pi√π corretti
+    una STACK-BASED VM, √® per aver pi√π familiarit√† con esse e cos√¨ da riuscere ad implementarne
+    una in modo pi√π rapido per uno dei miei prossimi progetti: un linguaggio di programmazione che usa BYTECODE su VM
     per garantire performance e sopratutto PORTABILITA' ( ed eventuale garbage collector)
 
     Essendo che voglio creare una Virtual Stack si presenta il vantaggio di non operare su registri
-    ma lo svantaggio di dover compiere pi˘ operazioni BYTECODE
+    ma lo svantaggio di dover compiere pi√π operazioni BYTECODE
 
     In questo caso simuliamo la VM ha il suo BYTECODE
 
@@ -145,7 +145,7 @@ void RunVirtualMachine(VirtualMachine *VM)
 
         switch(OperationCode)
         {
-            /* Essendo che Ë LIFO gli elementi sono pushati in ordine contrario */
+            /* Essendo che √® LIFO gli elementi sono pushati in ordine contrario */
 
             case ADD_INT:
                 SecondValue = POP(VM);
@@ -214,7 +214,7 @@ void RunVirtualMachine(VirtualMachine *VM)
 
                 break;
 
-            /* Per capire meglio il Jump Ë consigliato Leggere il ByteCode prima */
+            /* Per capire meglio il Jump √® consigliato Leggere il ByteCode prima */
             case JUMP:
 
                 VM->ProgramCounter = NextByteCode(VM); // JUMP 20 --- NextByteCode() ritorna 20 quindi salta alla ventesima operazione
@@ -341,41 +341,41 @@ void RunVirtualMachine(VirtualMachine *VM)
 int main()
 {
 
-    const int fib = 0;
+    const int fib = 0; // Entry point della funzione
     int sourceCode[] =
     {
 
         // int fib(n) {
         //     if(n == 0) return 0;
-        LOAD, -3,       // 0 - load last function argument N
-        CONST_INT, 0,   // 2 - put 0
-        EQ_INT,         // 4 - check equality: N == 0
-        JUMPF, 10,       // 5 - if they are NOT equal, goto 10
-        CONST_INT, 0,   // 7 - otherwise put 0
-        RET,            // 9 - and return it
+        LOAD, -3,       // 0 - Carico il parametro della funzione di fibonacci
+        CONST_INT, 0,   // 2 - Metto 0 come costante
+        EQ_INT,         // 4 - Verifico: che il parametro sia uguale ad 0: n == 0
+        JUMPF, 10,       // 5 - se NON uguali salta istruzione 10
+        CONST_INT, 0,   // 7 - senn√≤ metti 0
+        RET,            // 9 - ritorno della funzione
         //     if(n < 3) return 1;
-        LOAD, -3,       // 10 - load last function argument N
-        CONST_INT, 3,   // 12 - put 3
-        LT_INT,         // 14 - check if 3 is less than N
-        JUMPF, 20,       // 15 - if 3 is NOT less than N, goto 20
-        CONST_INT, 1,   // 17 - otherwise put 1
-        RET,            // 19 - and return it
+        LOAD, -3,       // 10 - carico il parametro
+        CONST_INT, 3,   // 12 - constante = 3
+        LT_INT,         // 14 - controllo se N < 3
+        JUMPF, 20,       // 15 - ise vero allora salta istruzione 20
+        CONST_INT, 1,   // 17 - altrimenti metti 1
+        RET,            // 19 - Ritorna
         //     else return fib(n-1) + fib(n-2);
-        LOAD, -3,       // 20 - load last function argument N
-        CONST_INT, 1,   // 22 - put 1
-        SUB_INT,        // 24 - calculate: N-1, result is on the stack
-        CALL, fib, 1,   // 25 - call fib function with 1 arg. from the stack
-        LOAD, -3,       // 28 - load N again
-        CONST_INT, 2,   // 30 - put 2
-        SUB_INT,        // 32 - calculate: N-2, result is on the stack
-        CALL, fib, 1,   // 33 - call fib function with 1 arg. from the stack
-        ADD_INT,        // 36 - since 2 fibs pushed their ret values on the stack, just add them
-        RET,            // 37 - return from procedure
+        LOAD, -3,       // 20 - carico il parametro
+        CONST_INT, 1,   // 22 - constante = 1
+        SUB_INT,        // 24 - calcolo N-1
+        CALL, fib, 1,   // 25 - chiamo la funzione con un argomento ( appena calcolato )
+        LOAD, -3,       // 28 - Ricarico il parametro
+        CONST_INT, 2,   // 30 - costante = 2
+        SUB_INT,        // 32 - calcolo N-2
+        CALL, fib, 1,   // 33 - chiamo la funzione con un argomento ( appena calcolato )
+        ADD_INT,        // 36 - essendo che abbiamo due valori di ritorno in stack li sommiamo
+        RET,            // 37 - ritorna dalla funzion
         // entrypoint - main function
-        CONST_INT, 6,   // 38 - put 6
-        CALL, fib, 1,   // 40 - call function: fib(arg) where arg = 6;
-        PRINT,          // 43 - print result
-        HALT            // 44 - stop program
+        CONST_INT, 6,   // 38 - metti 6
+        CALL, fib, 1,   // 40 - richiamo funzione: fib(6) 
+        PRINT,          // 43 - stampa risultato
+        HALT            // 44 - fine programma
 
 
     };
